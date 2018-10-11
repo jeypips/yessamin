@@ -1,0 +1,79 @@
+<button type="button" class="btn btn-primary float-right" ng-click="app.add(this,null)">Add</button>
+<div class="page-header">
+  <h1 class="page-title">
+	Groups
+  </h1>
+</div>
+
+<div class="row">
+	<div class="col-3 offset-9">
+		<div class="form-group">
+		     <input class="form-control ml-sm-2" type="search" placeholder="Search" aria-label="Search" ng-model="search">
+		</div>
+	</div>
+</div>
+
+<table class="table-bordered">
+	<thead>
+		<tr class="table100-head">
+			<th class="column1">No</th>
+			<th class="column">Name</th>
+			<th class="column">Groups</th>
+			<th class="column">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+			<tr ng-repeat="u in filterData = (users | filter:search) | pagination: currentPage:pageSize">
+				<td class="column1">{{u.id}}</td>
+				<td class="column">{{u.fullname}}</td>
+				<td class="column">{{u.groups}}</td>
+				<td class="column">
+					<button type="button" class="btn btn-secondary btn-space" ng-click="app.add(this,u)"><i class="fe fe-edit-3"></i></button>
+					<button type="button" class="btn btn-secondary btn-space" ng-click="app.delete(this,u)"><i class="fa fa-times"></i></button>
+				</td>
+			</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="4" style="margin-right: -10px;">
+				<div class="float-right"><ul uib-pagination direction-links="false" boundary-links="true" total-items="filterData.length" ng-model="currentPage" max-size="maxSize"></ul></div>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+<!-- <div class="card">
+	<div class="card-status bg-blue"></div>
+	<div class="table-responsive table-bordered">
+		<table class="table table-hover table-outline table-vcenter text-nowrap card-table">
+			<thead>
+				<tr>
+				<th>No</th>
+				<th>Group Name</th>
+				<th>Group Description</th>
+				<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="g in filterData = (groups | filter:search) | pagination: currentPage:pageSize">
+					<td>{{g.id}}</td>
+					<td>{{g.group_name}}</td>
+					<td>{{g.group_description}}</td>
+					<td>
+						<button type="button" class="btn btn-primary ml-auto" ng-click="app.jobSeeker(this,g)"><i class="fe fe-edit-3"></i></button>
+						<button type="button" class="btn btn-danger ml-auto" ng-click="app.delete(this,g)"><i class="fa fa-times"></i></button>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="6" style="text-align: center;">
+						<div class="float-right"><ul uib-pagination direction-links="false" boundary-links="true" total-items="filterData.length" ng-model="currentPage" max-size="maxSize"></ul></div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div> -->
+
+					

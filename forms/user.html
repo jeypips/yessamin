@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="card">
+	<div class="card-status bg-blue"></div>
+	  <div class="card-header">
+		<h3 class="card-title">User Form</h3>
+		<button class="btn btn-secondary ml-auto" style="margin-right: 5px;" ng-click="app.edit(this)"><i class="fe" ng-class="{'fe-edit': btns.ok.disabled, 'fe-slash': !btns.ok.disabled}"></i></button>
+	  </div>
+	  <form class="" name="formHolder.user" autocomplete="off" novalidate>
+	  <div class="card-body">
+		<div class="row">
+			<div class="col-lg-4">
+				<div class="form-group">
+				  <label class="form-label">First Name</label>
+					<input type="text" class="form-control" ng-model="user.firstname" name="firstname" placeholder="First Name" ng-class="{'border-danger state-invalid': formHolder.user.firstname.$touched && formHolder.user.firstname.$invalid}" ng-disabled="btns.ok.disabled" required>
+					<span class="text-danger" ng-show="formHolder.user.firstname.$touched && formHolder.user.firstname.$invalid">This field is required</span>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="form-group">
+				  <label class="form-label">Last Name</label>
+					<input type="text" class="form-control" ng-model="user.lastname" name="lastname" placeholder="Last Name" ng-class="{'border-danger state-invalid': formHolder.user.lastname.$touched && formHolder.user.lastname.$invalid}" ng-disabled="btns.ok.disabled" required>
+					<span class="text-danger" ng-show="formHolder.user.lastname.$touched && formHolder.user.lastname.$invalid">This field is required</span>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="form-group">
+				  <label class="form-label">Middle Name</label>
+					<input type="text" class="form-control" ng-model="user.middlename" name="middlename" placeholder="Last Name" ng-class="{'border-danger state-invalid': formHolder.user.middlename.$touched && formHolder.user.middlename.$invalid}" ng-disabled="btns.ok.disabled" required>
+					<span class="text-danger" ng-show="formHolder.user.middlename.$touched && formHolder.user.middlename.$invalid">This field is required</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-lg-4">
+				<div class="form-group">
+				  <label class="form-label">Username</label>
+					<input type="text" class="form-control" ng-model="user.username" name="username" placeholder="First Name" ng-class="{'border-danger state-invalid': formHolder.user.username.$touched && formHolder.user.username.$invalid}" ng-disabled="btns.ok.disabled" required>
+					<span class="text-danger" ng-show="formHolder.user.username.$touched && formHolder.user.username.$invalid">This field is required</span>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="form-group">
+				  <label class="form-label">Password</label>
+					<input type="password" class="form-control" ng-model="user.password" name="password" placeholder="Last Name" ng-class="{'border-danger state-invalid': formHolder.user.password.$touched && formHolder.user.password.$invalid}" ng-disabled="btns.ok.disabled" required>
+					<span class="text-danger" ng-show="formHolder.user.password.$touched && formHolder.user.password.$invalid">This field is required</span>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="form-group">
+				  <label class="form-label">Groups</label>
+					<select class="form-control"></select>
+					<!-- <span class="text-danger" ng-show="formHolder.user.middlename.$touched && formHolder.user.middlename.$invalid">This field is required</span> -->
+				</div>
+			</div>
+		</div>
+		
+		<hr>
+		<div class="row">
+			<button class="btn btn-primary ml-auto" style="margin-right: 5px;" ng-click="app.save(this)" ng-disabled="btns.ok.disabled">{{btns.ok.label}}</button>
+			<button class="btn btn-secondary" ng-click="app.cancel(this)">{{btns.cancel.label}}</button>
+		</div>
+	  </form>
+	</div>
+	</div>
+</div>
