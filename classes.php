@@ -1,13 +1,18 @@
 <?php
+
 class privileges {
+
 	var $system_privileges;
 	var $group_privileges;
 	var $page_privileges;
+
 	function __construct($system_privileges,$group_privileges) {
+
 		$arrayHex = new ArrayHex();
 	
 		$this->system_privileges = $system_privileges;
 		$this->group_privileges = json_decode($arrayHex->toArray($group_privileges),true);
+
 		foreach ($this->system_privileges as $key => $system_module) {
 			
 			if ($this->hasModule($system_module)) {
@@ -19,6 +24,7 @@ class privileges {
 		};
 		
 	}
+
 	private function hasModule($system_module) {
 		
 		$hasModule = false;
@@ -30,6 +36,7 @@ class privileges {
 		};
 		
 		return $hasModule;
+
 	}
 	
 	private function getModule($system_module) {
@@ -45,7 +52,9 @@ class privileges {
 		return $getModule;		
 		
 	}
+
 	private function getGroupPrivilege($system_privilege,$group_privilege) {
+
 		foreach ($system_privilege as $key => $sp) {
 			
 			$system_privilege[$key] = $this->checkPrivilegeAccess($group_privilege,$sp);
@@ -55,15 +64,21 @@ class privileges {
 		return $system_privilege;
 		
 	}
+
 	private function checkPrivilegeAccess($group_privilege,$access) {
 	
 		foreach ($group_privilege as $key => $gp) {
 			
 			if ($gp['id'] == $access['id']) {
+
 				$access['value'] = $gp['value'];
+
 			}
+
 		}
+
 		return $access;
+
 	}
 	
 	private function getPagesAccess($system_module_privileges,$group_module_privileges) {
@@ -75,11 +90,44 @@ class privileges {
 			if ($smp['id'] > 1) continue;
 			
 			$access = $this->groupPagesAccess($group_module_privileges,$smp);
+
 		};
 		
 		return $access;
 		
 	}
+	
+	private function getDeleteAccess($system_module_privileges,$group_module_privileges) {
+		
+		$delete = [];
+		
+		foreach ($system_module_privileges as $key => $smp) {
+			
+			if (!preg_match("/delete/",$smp['id'])) continue;
+			
+			$delete[$smp['id']] = $this->groupPagesAccess($group_module_privileges,$smp);
+
+		};
+		
+		return $delete;
+		
+	}	
+	
+	private function getShowAccess($system_module_privileges,$group_module_privileges) {
+
+		$show = [];
+
+		foreach ($system_module_privileges as $key => $smp) {
+
+			if (!preg_match("/show/",$smp['id'])) continue;
+
+			$show[$smp['id']] = $this->groupPagesAccess($group_module_privileges,$smp);
+
+		};
+		
+		return $show;
+
+	}	
 	
 	private function groupPagesAccess($group_privileges,$page_access) {
 		
@@ -102,25 +150,34 @@ class privileges {
 	}	
 	
 	public function getPagesPrivileges() {
+
 		$this->page_privileges = [];
+
 		foreach ($this->system_privileges as $key => $system_module) {
 			
-			$system_module['value'] = $this->getPagesAccess($system_module['privileges'],$this->getModule($system_module));							
+			$system_module['value'] = $this->getPagesAccess($system_module['privileges'],$this->getModule($system_module));
+			$system_module['delete'] = $this->getDeleteAccess($system_module['privileges'],$this->getModule($system_module));		
+			$system_module['show'] = $this->getShowAccess($system_module['privileges'],$this->getModule($system_module));
 			
 			unset($system_module['privileges']);
 			
 			$this->page_privileges[] = $system_module;			
 			
 		};
+
 		$page_privileges = [];
 		foreach ($this->page_privileges as $p => $pp) {
+
 			if ($p == 0) {
-				$page_privileges = array($pp['id']=>array("value"=>$pp['value']));
+				$page_privileges = array($pp['id']=>array("value"=>$pp['value'],"delete"=>$pp['delete'],"show"=>$pp['show']));
 			} else {
-				$page_privileges[$pp['id']] = array("value"=>$pp['value']);
+				$page_privileges[$pp['id']] = array("value"=>$pp['value'],"delete"=>$pp['delete'],"show"=>$pp['show']);
 			};
+
 		};
+
 		return $page_privileges;
+
 	}
 	
 	public function hasAccess($mod,$prop) {
@@ -128,17 +185,25 @@ class privileges {
 		$access = false;
 		
 		foreach ($this->system_privileges as $sp) {
+
 			if ($sp['id'] == $mod) {
+
 				foreach ($sp['privileges'] as $p) {
+
 					if ($p['id'] == $prop) $access = $p['value'];
+
 				};
+
 			};
+
 		};
 		
 		return $access;
 	
 	}
+
 };
+
 class ArrayHex {
 	
 	public function toHex($string) {
@@ -155,6 +220,7 @@ class ArrayHex {
 		return strToUpper($hex);
 		
 	}
+
 	public function toArray($hex) {
 		
 		$string='';
@@ -164,7 +230,11 @@ class ArrayHex {
 		}
 		
 		return json_decode($string,true);
+
 	}	
 	
 };
+
+
+
 ?>
