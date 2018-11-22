@@ -42,7 +42,7 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 			
 			$http({
 			  method: 'GET',
-			   url: 'api/users/list'
+			   url: 'handlers/users/list.php'
 			}).then(function success(response) {
 				
 				scope.users = angular.copy(response.data);
@@ -60,6 +60,20 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 			$('#content').load('lists/users.html',function() {
 				$timeout(function() { $compile($('#content')[0])(scope); }, 500);
 			});			
+			
+		};
+		
+		function validate(scope) {
+			
+			var controls = scope.formHolder.user.$$controls;
+			
+			angular.forEach(controls,function(elem,i) {
+				
+				if (elem.$$attr.$attr.required) elem.$touched = elem.$invalid;
+									
+			});
+
+			return scope.formHolder.user.$invalid;
 			
 		};
 		
@@ -84,11 +98,13 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 			
 		};
 		
-		self.add = function(scope,row){
+		self.add = function(scope,row) {
 			
 			bui.show();
 			
 			scope.views.list = false;
+			
+			groups(scope);
 			
 			mode(scope,row);
 			
@@ -100,10 +116,9 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 					if (row != null) {
 						
 						if (scope.$id > 2) scope = scope.$parent;
-						
 						$http({
-						  method: 'GET',
-						  url: 'api/users/view/'+row.id,
+						  method: 'POST',
+						  url: 'handlers/users/view.php',
 						  data: {id: row.id}
 						}).then(function success(response) {
 							
@@ -130,37 +145,29 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 			
 		};
 		
-		self.save = function(scope,user) {
-			
-			if (validate.form(scope,'user')) {
-				growl.show('danger',{from: 'top', amount: 55},'Some fields are required');				
+		self.save = function(scope) {
+
+			if (validate(scope)) {
+				growl.show('btn btn-danger',{from: 'top', amount: 55},'Some fields are required');				
 				return;
-			};
-			
-			var url = 'api/users/add';
-			var method = 'POST';
-			if (scope.user.id != 0) {
-				url = 'api/users/update';
-				method = 'PUT';
 			};
 
 			$http({
-			  method: method,
-			  url: url,
-			  data: scope.user
+			  method: 'POST',
+			  url: 'handlers/users/save.php',
+			  data: {user: scope.user}
 			}).then(function success(response) {
 				
 				bui.hide();
-				if (scope.user.id == 0) growl.show('success',{from: 'top', amount: 55},'User Info successfully added');				
-				else growl.show('success',{from: 'top', amount: 55},'User Info successfully updated');				
-				mode(scope,scope.user);
-				// self.list(scope);								
+				if (scope.user.id == 0) growl.show('btn btn-success',{from: 'top', amount: 55},'New user info successfully added');				
+				else growl.show('btn btn-success',{from: 'top', amount: 55},'User Info successfully updated');				
+				mode(scope,scope.user);		
 				
 			}, function error(response) {
 				
 				bui.hide();				
 				
-			});
+			});				
 			
 		};
 		
@@ -176,32 +183,50 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 			
 		};
 		
-		self.delete = function(scope, row) {
+		self.delete = function(scope,row) {
 			
 			var onOk = function() {
 				
+				if (scope.$id > 2) scope = scope.$parent;			
+				
 				$http({
-					method: 'DELETE',
-					url: 'api/users/delete/'+row.id
-				}).then(function mySuccess(response) {
-						
-						growl.show('alert alert-danger no-border mb-2',{from: 'top', amount: 55},'User Info successfully deleted.');
-						self.list(scope);
-						
-				}, function myError(response) {
-			
+				  method: 'POST',
+				  url: 'handlers/users/delete.php',
+				  data: {id: [row.id]}
+				}).then(function mySucces(response) {
 
+					self.list(scope);
+					
+					growl.show('btn btn-danger',{from: 'top', amount: 55},'User Info successfully deleted.');
+					
+				}, function myError(response) {
+					 
+				  // error
+					
 				});
 
 			};
-			
-			var onCancel = function() { };
-			
-			bootstrapModal.confirm(scope,'Confirmation','Are you sure you want to Delete?',onOk,onCancel);
-			
+
+			bootstrapModal.confirm(scope,'Confirmation','Are you sure you want to delete this record?',onOk,function() {});
+				
 		};
 		
-		
+		function groups(scope) {
+			
+			$http({
+			  method: 'POST',
+			  url: 'api/suggestions/groups.php'
+			}).then(function mySuccess(response) {
+				
+				scope.groups = angular.copy(response.data);
+				
+			}, function myError(response) {
+				
+				//
+				
+			});				
+			
+		};	
 		
 	};
 	

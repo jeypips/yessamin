@@ -1,207 +1,209 @@
-angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','bootstrap-growl','form-validator','window-open-post']).factory('app', function($http,$timeout,$compile,bui,growl,validate,bootstrapModal,printPost) {
-
+angular.module('app-module',['ui.bootstrap','bootstrap-modal','bootstrap-growl','block-ui']).factory('app', function($compile,$timeout,$http,bootstrapModal,growl,bui) {
+	
 	function app() {
 		
-		var self = this;				
-
-		self.data = function(scope) {
-
-			scope.formHolder = {};
+		var self = this;
+		
+		var loading = '<div class="col-sm-offset-4 col-sm-8"><button type="button" class="btn btn-dark" title="Loading" disabled><i class="fa fa-spinner fa-spin"></i>&nbsp; Please wait...</button></div>';
+		
+		self.data = function(scope) { // initialize data			
+						
+			scope.mode = null;
 			
-			scope.views = {};
-			scope.views.currentPage = 1;
-
-			scope.views.list = true;
-			
-			scope.btns = {
-				ok: {disabled: false, label: 'Save'},
-				cancel: {disabled: false, label: 'Cancel'}
+			scope.controls = {
+				ok: {btn: false,label: 'Save'},
+				cancel: {btn: false,label: 'Cancel'},
 			};
-
+				
 			scope.group = {};
-			scope.group.id = 0;			
+			scope.group.id = 0;
 			
-			scope.groups = [];
+			scope.groups = []; // list
 			
 		};
 
-		self.list = function(scope) {
+		function validate(scope) {
 			
-			bui.show();
+			var controls = scope.formHolder.group.$$controls;
 			
-			if (scope.$id > 2) scope = scope.$parent;			
-			
-			scope.views.list = true;			
-			
-			scope.group = {};
-			scope.group.id = 0;						
-			
-			scope.currentPage = scope.views.currentPage;
-			scope.pageSize = 10;
-			scope.maxSize = 5;
-			
-			$http({
-			  method: 'GET',
-			   url: 'api/groups/list'
-			}).then(function success(response) {
+			angular.forEach(controls,function(elem,i) {
 				
-				scope.groups = angular.copy(response.data);
-				scope.filterData = scope.groups;
-				scope.currentPage = scope.views.currentPage;
-				
-				bui.hide();
-				
-			}, function error(response) {
-				
-				bui.hide();
+				if (elem.$$attr.$attr.required) elem.$touched = elem.$invalid;
+									
+			});
 
-			});			
-			
-			$('#content').load('lists/groups.html',function() {
-				$timeout(function() { $compile($('#content')[0])(scope); }, 500);
-			});			
+			return scope.formHolder.group.$invalid;
 			
 		};
 		
 		function mode(scope,row) {
 			
-			if (row != null) {
-
-				scope.btns = {
-					ok: {disabled: true, label: 'Update'},
-					cancel: {disabled: true, label: 'Close'}
-				};				
-			
-			
+			if (row == null) {
+				scope.controls.ok.label = 'Save';
+				scope.controls.ok.btn = false;
+				scope.controls.cancel.label = 'Cancel';
+				scope.controls.cancel.btn = false;
 			} else {
-				
-				scope.btns = {
-					ok: {disabled: false, label: 'Save'},
-					cancel: {disabled: false, label: 'Cancel'}
-				};				
-				
-			};
+				scope.controls.ok.label = 'Update';
+				scope.controls.ok.btn = true;
+				scope.controls.cancel.label = 'Close';
+				scope.controls.cancel.btn = false;				
+			}
 			
-		};
+		};	
 		
-		self.add = function(scope,row){
+		self.group = function(scope,row) {	
+		
+			scope.group = {};
+			scope.group.id = 0;
 			
-			bui.show();
-			
-			scope.views.list = false;
+			privileges(scope);	
 			
 			mode(scope,row);
 			
+			$('#content').html(loading);
 			$('#content').load('forms/group.html',function() {
-				$timeout(function() {
-					
-					$compile($('#content')[0])(scope);
-					
-					if (row != null) {
-						
-						if (scope.$id > 2) scope = scope.$parent;
-						
-						$http({
-						  method: 'GET',
-						  url: 'api/groups/view/'+row.id,
-						  data: {id: row.id}
-						}).then(function success(response) {
-							
-							scope.group = angular.copy(response.data);
-							bui.hide();							
-							
-						}, function error(response) {
-							
-							bui.hide();				
-							
-						});
-						
-					} else {
-						
-						scope.group = {};
-						scope.group.id = 0;
-						
-					};
-					
-					bui.hide();
-					
-				}, 500);
-			});	
-			
-		};
-		
-		self.save = function(scope,group) {
-			
-			if (validate.form(scope,'group')) {
-				growl.show('danger',{from: 'top', amount: 55},'Some fields are required');				
-				return;
-			};
-			
-			var url = 'api/groups/add';
-			var method = 'POST';
-			if (scope.group.id != 0) {
-				url = 'api/groups/update';
-				method = 'PUT';
-			};
-
-			$http({
-			  method: method,
-			  url: url,
-			  data: scope.group
-			}).then(function success(response) {
-				
-				bui.hide();
-				if (scope.group.id == 0) growl.show('success',{from: 'top', amount: 55},'Group Info successfully added');				
-				else growl.show('success',{from: 'top', amount: 55},'Group Info successfully updated');				
-				mode(scope,scope.group);
-				// self.list(scope);								
-				
-			}, function error(response) {
-				
-				bui.hide();				
-				
+				$timeout(function() { $compile($('#content')[0])(scope); },200);
 			});
 			
+			if (row != null) {
+				
+				if (scope.$id > 2) scope = scope.$parent;				
+				$http({
+				  method: 'POST',
+				  url: 'handlers/groups/view.php',
+				  data: {id: row.id}
+				}).then(function mySucces(response) {
+					
+					angular.copy(response.data, scope.group);
+					privileges(scope);
+					
+				}, function myError(response) {
+					
+				  // error
+				  
+				});
+					
+			}; //row
+		
+			
 		};
 		
-		self.cancel = function(scope){
+		
+		self.edit = function(scope) {
+			
+			scope.controls.ok.btn = !scope.controls.ok.btn;
+			
+		};
+		
+		self.cancel = function(scope) {
 			
 			self.list(scope);
 			
 		};
 		
-		self.edit = function(scope){
+		self.save = function(scope) {
 			
-			scope.btns.ok.disabled = !scope.btns.ok.disabled;
-			
-		};
+			if (validate(scope)){ 
+			growl.show('alert alert-danger alert-dismissible fade in',{from: 'top', amount: 55},'Please complete required fields.');
+			return;
+			}
 		
-		self.delete = function(scope, row) {
-			
-			var onOk = function() {
+			$http({
+			  method: 'POST',
+			  url: 'handlers/groups/save.php',
+			  data: {group: scope.group, privileges: scope.privileges}
+			}).then(function mySucces(response) {
 				
-				$http({
-					method: 'DELETE',
-					url: 'api/groups/delete/'+row.id
-				}).then(function mySuccess(response) {
-						
-						growl.show('alert alert-danger no-border mb-2',{from: 'top', amount: 55},'Group Info successfully deleted.');
-						self.list(scope);
-						
-				}, function myError(response) {
+				if (scope.group.id == 0) {
+					scope.group.id = response.data;
+					growl.show('alert alert-success alert-dismissible fade in',{from: 'top', amount: 55},'Group Information successfully added.');
+					}	else{
+						growl.show('alert alert-success alert-dismissible fade in',{from: 'top', amount: 55},'Group Information successfully updated.');
+					}
+					mode(scope,scope.group);
+				
+			}, function myError(response) {
+				 
+			  // error
+				
+			});			
 			
+		};		
+		
+		self.delete = function(scope,row) {
+			
+		var onOk = function() {
+			
+			if (scope.$id > 2) scope = scope.$parent;			
+			
+			$http({
+			  method: 'POST',
+			  url: 'handlers/groups/delete.php',
+			  data: {id: [row.id]}
+			}).then(function mySucces(response) {
 
-				});
+				self.list(scope);
+				
+				growl.show('alert alert-danger alert-dismissible fade in',{from: 'top', amount: 55},'Group Informarion successfully deleted.');
+				
+			}, function myError(response) {
+				 
+			  // error
+				
+			});
 
-			};
-			
-			var onCancel = function() { };
-			
-			bootstrapModal.confirm(scope,'Confirmation','Are you sure you want to Delete?',onOk,onCancel);
+		};
+
+		bootstrapModal.confirm(scope,'Confirmation','Are you sure you want to delete this record?',onOk,function() {});
 			
 		};
 		
+		self.list = function(scope) {
+
+			bui.show();
+			
+			scope.group = {};
+			scope.group.id = 0;
+			
+			$http({
+			  method: 'POST',
+			  url: 'handlers/groups/list.php',
+			}).then(function mySucces(response) {
+				
+				scope.groups = response.data;
+				
+				bui.hide();
+				
+			}, function myError(response) {
+				 
+				bui.hide();
+				
+			});
+			
+			$('#content').load('lists/groups.html', function() {
+				$timeout(function() { $compile($('#content')[0])(scope); },100);								
+			});				
+			
+		};
 		
+		function privileges(scope) {
+			
+			$http({
+			  method: 'POST',
+			  url: 'handlers/privileges.php',
+			  data: {id: scope.group.id}
+			}).then(function mySuccess(response) {
+				
+				scope.privileges = angular.copy(response.data);
+				
+			}, function myError(response) {
+				
+				//
+				
+			});				
+			
+		};		
 		
 	};
 	

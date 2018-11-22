@@ -1,7 +1,7 @@
 <?php
 
 require_once '../../../db.php';
-// require_once '../../../system_privileges.php';
+require_once '../../../system_privileges.php';
 require_once '../../../classes.php';
 
 session_start();
@@ -14,7 +14,7 @@ $account = $con->get(["id"=>$_SESSION['id']],["CONCAT(firstname, ' ', lastname) 
 
 $avatar = "angular/modules/account/avatar.png";
 
-/* $con->table = "groups";
+$con->table = "groups";
 
 $group_privileges = $con->get(array("group_id"=>$account[0]['groups']),["privileges"]);
 
@@ -28,13 +28,13 @@ if (count($group_privileges)) {
 	};
 }
 
-$account[0]['pages_access'] = $pages_access; */
+$account[0]['pages_access'] = $pages_access;
 
 $profile = array(
 	"fullname"=>$account[0]['fullname'],
 	"picture"=>$avatar,
-	// "groups"=>$account[0]['groups'],
-	// "pages_access"=>$pages_access,
+	"groups"=>$account[0]['groups'],
+	"pages_access"=>$pages_access,
 );
 
 echo json_encode($profile);

@@ -23,10 +23,29 @@
 				</div>
 			</div>
 		</div>
+		<div class="x_panel" ng-repeat="p in privileges">
+		<div class="x_title">
+			<h4><i class="fa fa-check-square-o"></i> {{p.description}}</h4>
+			<ul class="nav navbar-right panel_toolbox">
+			</ul>
+			<div class="clearfix"></div>
+		</div>
+		<div class="row">		
+			<div class="col-md-3 form-group" ng-repeat="pp in p.privileges">
+				  <div class="checkbox">
+					<label class="switch">
+					  <input type="checkbox" class="flat" ng-checked="pp.value" ng-model="pp.value" ng-disabled="controls.ok.btn">
+					  <span class="slider round"></span>
+					</label>
+					<h6>{{pp.description}}</h6>
+				  </div>
+			</div>
+		</div>
+	</div>
 		<hr>
 		<div class="row">
-			<button class="btn btn-primary ml-auto" style="margin-right: 5px;" ng-click="app.save(this)" ng-disabled="btns.ok.disabled">{{btns.ok.label}}</button>
-			<button class="btn btn-secondary" ng-click="app.cancel(this)">{{btns.cancel.label}}</button>
+			<button class="btn btn-primary ml-auto" style="margin-right: 5px;" ng-click="app.save(this)" ng-disabled="btns.ok.disabled">{{controls.ok.label}}</button>
+			<button class="btn btn-secondary" ng-click="app.cancel(this)">{{controls.cancel.label}}</button>
 		</div>
 	  </form>
 	</div>

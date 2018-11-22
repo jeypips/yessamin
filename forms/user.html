@@ -49,8 +49,8 @@
 			<div class="col-lg-4">
 				<div class="form-group">
 				  <label class="form-label">Groups</label>
-					<select class="form-control"></select>
-					<!-- <span class="text-danger" ng-show="formHolder.user.middlename.$touched && formHolder.user.middlename.$invalid">This field is required</span> -->
+					<select class="form-control" name="group" ng-model="user.groups" ng-options="group.group_name for group in groups track by group.id" ng-class="{'border-danger state-invalid': formHolder.user.group.$touched && formHolder.user.group.$invalid}" ng-disabled="btns.ok.disabled" required></select>
+					<span class="text-danger" ng-show="formHolder.user.group.$touched && formHolder.user.group.$invalid">This field is required</span>
 				</div>
 			</div>
 		</div>
