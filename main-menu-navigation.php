@@ -7,8 +7,8 @@
 	<div class="dropdown-menu dropdown-menu-arrow">
 	  <a href="groups.html" class="dropdown-item <?=($page=="groups")?' active':''?>">Groups</a>
 	  <a href="users.html" class="dropdown-item<?=($page=="users")?' active':''?>">Users</a>
-	  <a href="discounts.html" class="dropdown-item">Discounts</a>
-	  <a href="suppliers.html" class="dropdown-item">Suppliers</a>
+	  <a href="discounts.html" class="dropdown-item<?=($page=="discounts")?' active':''?>">Discounts</a>
+	  <a href="suppliers.html" class="dropdown-item<?=($page=="suppliers")?' active':''?>">Suppliers</a>
 	</div>
   </li>
 </ul>

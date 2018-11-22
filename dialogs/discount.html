@@ -1,0 +1,25 @@
+<div class="col-sm-2 offset-10">
+	<button class="btn btn-secondary" ng-click="app.edit(this)"><i class="fe" ng-class="{'fe-edit': btns.ok.disabled, 'fe-slash': !btns.ok.disabled}"></i></button>
+</div>
+<div class="row">
+	<form name="formHolder.discount" autocomplete="off" novalidate>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="form-group">
+					  <label class="form-label">Name</label>
+						<input type="text" class="form-control" ng-model="discount.name" name="name" ng-class="{'border-danger state-invalid': formHolder.discount.name.$touched && formHolder.discount.name.$invalid}" ng-disabled="btns.ok.disabled" required>
+						<span class="text-danger" ng-show="formHolder.discount.name.$touched && formHolder.discount.name.$invalid">This field is required</span>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="form-group">
+					  <label class="form-label">Description</label>
+						<input type="text" class="form-control" ng-model="discount.description" name="description" ng-class="{'border-danger state-invalid': formHolder.discount.description.$touched && formHolder.discount.description.$invalid}" ng-disabled="btns.ok.disabled" required>
+						<span class="text-danger" ng-show="formHolder.discount.description.$touched && formHolder.discount.description.$invalid">This field is required</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

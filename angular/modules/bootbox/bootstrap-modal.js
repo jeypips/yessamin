@@ -103,6 +103,35 @@ angular.module('bootstrap-modal',[]).service('bootstrapModal', function($compile
 			$timeout(function() { $compile($('.bootbox-body')[0])(scope); }, 500);
 		});
 
-	};	
+	};
+	
+	this.box3 = function(scope,title,content,onOk) {
+
+		var dialog = bootbox.confirm({
+			title: title,
+			message: 'Loading content...',
+			buttons: {
+				cancel: {
+					label: 'Close',
+					className: 'btn-danger'
+				},
+				confirm: {
+					label: 'Save',
+					className: 'btn-primary'
+				}
+			},
+			callback: function (result) {
+				if (result) {
+					return onOk(scope);
+				}
+			}
+		});
+		
+		dialog.init(function() {
+			dialog.find('.bootbox-body').load(content);
+			$timeout(function() { $compile($('.bootbox-body')[0])(scope); }, 500);
+		});
+	
+	};
 
 });
