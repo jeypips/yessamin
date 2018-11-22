@@ -19,7 +19,10 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 			};
 
 			scope.supplier = {};
-			scope.supplier.id = 0;			
+			scope.supplier.id = 0;	
+			
+			scope.supplier.main_categories = [];
+			scope.supplier.dels = [];			
 			
 			scope.suppliers = [];
 			
@@ -101,6 +104,9 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 		self.add = function(scope,row) {
 			
 			discounts(scope);
+			
+			scope.supplier.main_categories = [];
+			scope.supplier.dels = [];			
 			
 			bui.show();
 			
@@ -225,6 +231,44 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 				//
 				
 			});				
+			
+		};
+		
+		self.main_category = {
+			
+			add: function(scope) {
+
+				scope.supplier.main_categories.push({
+					id: 0,
+					supplier_id: 0,
+					name: '',
+					description: ''
+				});
+				
+			},			
+			
+			delete: function(scope,row) {
+				
+				if (row.id > 0) {
+					scope.supplier.dels.push(row.id);
+				};
+				
+				var main_categories = scope.supplier.main_categories;
+				var index = scope.supplier.main_categories.indexOf(row);
+				scope.supplier.main_categories = [];			
+				
+				angular.forEach(main_categories, function(d,i) {
+					
+					if (index != i) {
+						
+						delete d['$$hashKey'];
+						scope.supplier.main_categories.push(d);
+						
+					};
+					
+				});
+
+			}			
 			
 		};
 
