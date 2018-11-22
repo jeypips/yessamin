@@ -8,7 +8,7 @@ session_start();
 
 $con = new pdo_db();
 
-$discounts = $con->getData("SELECT * FROM discounts");
+$discounts = $con->getData("SELECT * FROM suppliers_discounts");
 
 header("Content-Type: application/json");
 echo json_encode($discounts);

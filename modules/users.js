@@ -222,7 +222,7 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 				
 			}, function myError(response) {
 				
-				//
+				//error
 				
 			});				
 			

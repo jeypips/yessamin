@@ -100,6 +100,8 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 		
 		self.add = function(scope,row) {
 			
+			discounts(scope);
+			
 			bui.show();
 			
 			scope.views.list = false;
@@ -207,6 +209,23 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 
 			bootstrapModal.confirm(scope,'Confirmation','Are you sure you want to delete this record?',onOk,function() {});
 				
+		};
+		
+		function discounts(scope) {
+			
+			$http({
+			  method: 'POST',
+			  url: 'api/suggestions/discounts.php'
+			}).then(function mySuccess(response) {
+				
+				scope.discounts = angular.copy(response.data);
+				
+			}, function myError(response) {
+				
+				//
+				
+			});				
+			
 		};
 
 		

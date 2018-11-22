@@ -1,34 +1,105 @@
 <div class="row">
-  <div class="card">
-	<div class="card-status bg-blue"></div>
-	  <div class="card-header">
-		<h3 class="card-title">Supplier Form</h3>
-		<button class="btn btn-secondary ml-auto" style="margin-right: 5px;" ng-click="app.edit(this)"><i class="fe" ng-class="{'fe-edit': btns.ok.disabled, 'fe-slash': !btns.ok.disabled}"></i></button>
-	  </div>
-	  <form class="" name="formHolder.supplier" autocomplete="off" novalidate>
-	  <div class="card-body">
-		<div class="row">
-			<div class="col-lg-4">
-				<div class="form-group">
-				  <label class="form-label">Name</label>
-					<input type="text" class="form-control" ng-model="supplier.name" name="name" ng-class="{'border-danger state-invalid': formHolder.supplier.name.$touched && formHolder.supplier.name.$invalid}" ng-disabled="btns.ok.disabled" required>
-					<span class="text-danger" ng-show="formHolder.supplier.name.$touched && formHolder.supplier.name.$invalid">This field is required</span>
+	<div class="col-lg-6">
+		<div class="card">
+		  <div class="card-status bg-blue"></div>
+		  <div class="card-header">
+			<h3 class="card-title">Supplier Form</h3>
+			<button class="btn btn-secondary ml-auto" style="margin-right: 5px;" ng-click="app.edit(this)"><i class="fe" ng-class="{'fe-edit': btns.ok.disabled, 'fe-slash': !btns.ok.disabled}"></i></button>
+		  </div>
+		  <form name="formHolder.supplier" autocomplete="off" novalidate>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="form-group">
+						  <label class="form-label">Name</label>
+							<input type="text" class="form-control" ng-model="supplier.name" name="name" ng-class="{'border-danger state-invalid': formHolder.supplier.name.$touched && formHolder.supplier.name.$invalid}" ng-disabled="btns.ok.disabled" required>
+							<span class="text-danger" ng-show="formHolder.supplier.name.$touched && formHolder.supplier.name.$invalid">This field is required</span>
+						</div>
+					</div>
+					<div class="col-lg-12">
+						<div class="form-group">
+						  <label class="form-label">Description</label>
+							<input type="text" class="form-control" ng-model="supplier.description" name="description" ng-class="{'border-danger state-invalid': formHolder.supplier.description.$touched && formHolder.supplier.description.$invalid}" ng-disabled="btns.ok.disabled" required>
+							<span class="text-danger" ng-show="formHolder.supplier.description.$touched && formHolder.supplier.description.$invalid">This field is required</span>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="col-lg-4">
-				<div class="form-group">
-				  <label class="form-label">Description</label>
-					<input type="text" class="form-control" ng-model="supplier.description" name="description" ng-class="{'border-danger state-invalid': formHolder.supplier.description.$touched && formHolder.supplier.description.$invalid}" ng-disabled="btns.ok.disabled" required>
-					<span class="text-danger" ng-show="formHolder.supplier.description.$touched && formHolder.supplier.description.$invalid">This field is required</span>
-				</div>
-			</div>
+		</form>
 		</div>
-		<hr>
-		<div class="row">
-			<button class="btn btn-primary ml-auto" style="margin-right: 5px;" ng-click="app.save(this)" ng-disabled="btns.ok.disabled">{{btns.ok.label}}</button>
-			<button class="btn btn-secondary" ng-click="app.cancel(this)">{{btns.cancel.label}}</button>
-		</div>
-	  </form>
 	</div>
+
+	<div class="col-lg-6">
+		<div class="card">
+		  <div class="card-status bg-blue"></div>
+			<div class="card-header">
+				<h3 class="card-title">Discounts</h3>
+				<button class="btn btn-secondary ml-auto" style="margin-right: 5px;" ng-click="app.edit(this)"><i class="fe" ng-class="{'fe-edit': btns.ok.disabled, 'fe-slash': !btns.ok.disabled}"></i></button>
+			</div>
+		    <table class="table">
+				<thead>
+					<th>Name</th>
+					<th>Amount</th>
+					<th>Action</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="d in discounts">
+						<td>{{d.name}}</td>
+						<td><input text="text" class="form-control"></td>
+						<td><button class="btn btn-secondary"><i class="fe" ng-class="{'fe-edit': btns.ok.disabled, 'fe-slash': !btns.ok.disabled}"></i></button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-6">
+		<div class="card">
+			<div class="card-status bg-blue"></div>
+			<div class="card-header">
+				<h3 class="card-title">Main Category</h3>
+				<button class="btn btn-primary ml-auto">Add</button>
+			</div>
+		    <table class="table">
+				<thead>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Action</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="text" class="form-control" name="name"></td>
+						<td><input text="text" class="form-control" name="name"></td>
+						<td><button class="btn btn-secondary"><i class="fe" ng-class="{'fe-edit': btns.ok.disabled, 'fe-slash': !btns.ok.disabled}"></i></button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<div class="col-lg-6">
+		<div class="card">
+			<div class="card-status bg-blue"></div>
+			<div class="card-header">
+				<h3 class="card-title">Category</h3>
+				<button class="btn btn-primary ml-auto">Add</button>
+			</div>
+		    <table class="table">
+				<thead>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Action</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="text" class="form-control" name="name"></td>
+						<td><input text="text" class="form-control" name="name"></td>
+						<td><button class="btn btn-secondary"><i class="fe" ng-class="{'fe-edit': btns.ok.disabled, 'fe-slash': !btns.ok.disabled}"></i></button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
