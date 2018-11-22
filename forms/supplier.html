@@ -34,7 +34,6 @@
 		  <div class="card-status bg-blue"></div>
 			<div class="card-header">
 				<h3 class="card-title">Discounts</h3>
-				<button class="btn btn-secondary ml-auto" style="margin-right: 5px;" ng-click="app.edit(this)"><i class="fe" ng-class="{'fe-edit': btns.ok.disabled, 'fe-slash': !btns.ok.disabled}"></i></button>
 			</div>
 		    <table class="table">
 				<thead>
@@ -46,7 +45,7 @@
 					<tr ng-repeat="d in discounts">
 						<td>{{d.name}}</td>
 						<td><input text="text" class="form-control"></td>
-						<td><button class="btn btn-secondary"><i class="fe" ng-class="{'fe-edit': btns.ok.disabled, 'fe-slash': !btns.ok.disabled}"></i></button></td>
+						<td><button class="btn btn-secondary"><i class="fe fe-edit"></i></button></td>
 					</tr>
 				</tbody>
 			</table>
@@ -73,8 +72,8 @@
 						<td><input type="text" class="form-control" name="name{{$index}}" ng-model="mc.name" ng-disabled="mc.disabled"></td>
 						<td><input text="text" class="form-control" name="description{{$index}}" ng-model="mc.description" ng-disabled="mc.disabled"></td>
 						<td>
-						<button class="btn btn-primary" ng-click="app.main_category.edit(this,mc)"><i class="fe" ng-class="{'fe-edit': mc.disabled, 'fe-slash': !mc.disabled}"></i></button>
-						<button class="btn btn-danger" ng-click="app.main_category.delete(this,mc)" ng-disabled="mc.disabled"><i class="fe fe-x"></i></button>
+						<button class="btn btn-secondary btn-space" ng-click="app.main_category.edit(this,mc)"><i class="fe" ng-class="{'fe-edit': mc.disabled, 'fe-slash': !mc.disabled}"></i></button>
+						<button class="btn btn-secondary btn-space" ng-click="app.main_category.delete(this,mc)" ng-disabled="mc.disabled"><i class="fe fe-x"></i></button>
 						</td>
 					</tr>
 				</tbody>
