@@ -3,7 +3,7 @@
 	<div class="card-status bg-blue"></div>
 	  <div class="card-header">
 		<h3 class="card-title">Group Form</h3>
-		<button class="btn btn-secondary ml-auto" style="margin-right: 5px;" ng-click="app.edit(this)"><i class="fe" ng-class="{'fe-edit': btns.ok.disabled, 'fe-slash': !btns.ok.disabled}"></i></button>
+		<button class="btn btn-secondary ml-auto" style="margin-right: 5px;" ng-click="app.edit(this)"><i class="fe" ng-class="{'fe-edit': btns.ok.btn, 'fe-slash': !btns.ok.btn}"></i></button>
 	  </div>
 	  <form class="" name="formHolder.group" autocomplete="off" novalidate>
 	  <div class="card-body">
@@ -11,41 +11,37 @@
 			<div class="col-lg-6">
 				<div class="form-group">
 				  <label class="form-label">Group Name</label>
-					<input type="text" class="form-control" ng-model="group.group_name" name="group_name" placeholder="Group Name" ng-class="{'border-danger state-invalid': formHolder.group.group_name.$touched && formHolder.group.group_name.$invalid}" ng-disabled="btns.ok.disabled" required>
+					<input type="text" class="form-control" ng-model="group.group_name" name="group_name" placeholder="Group Name" ng-class="{'border-danger state-invalid': formHolder.group.group_name.$touched && formHolder.group.group_name.$invalid}" ng-disabled="btns.ok.btn" required>
 					<span class="text-danger" ng-show="formHolder.group.group_name.$touched && formHolder.group.group_name.$invalid">This field is required</span>
 				</div>
 			</div>
 			<div class="col-lg-6">
 				<div class="form-group">
 				  <label class="form-label">Group Description</label>
-					<input type="text" class="form-control" ng-model="group.group_description" name="group_description" placeholder="Group Description" ng-class="{'border-danger state-invalid': formHolder.group.group_description.$touched && formHolder.group.group_description.$invalid}" ng-disabled="btns.ok.disabled" required>
+					<input type="text" class="form-control" ng-model="group.group_description" name="group_description" placeholder="Group Description" ng-class="{'border-danger state-invalid': formHolder.group.group_description.$touched && formHolder.group.group_description.$invalid}" ng-disabled="btns.ok.btn" required>
 					<span class="text-danger" ng-show="formHolder.group.group_description.$touched && formHolder.group.group_description.$invalid">This field is required</span>
 				</div>
 			</div>
-		</div>
+		</div><br>
 		<div class="x_panel" ng-repeat="p in privileges">
-		<div class="x_title">
-			<h4><i class="fa fa-check-square-o"></i> {{p.description}}</h4>
-			<ul class="nav navbar-right panel_toolbox">
-			</ul>
-			<div class="clearfix"></div>
-		</div>
-		<div class="row">		
-			<div class="col-md-3 form-group" ng-repeat="pp in p.privileges">
+			<div class="x_title">
+				<h4>{{p.description}}</h4>
+			</div>
+			<div class="row">		
+				<div class="col-lg-2 col-sm-6 form-group" ng-repeat="pp in p.privileges">
 				  <div class="checkbox">
 					<label class="switch">
-					  <input type="checkbox" class="flat" ng-checked="pp.value" ng-model="pp.value" ng-disabled="controls.ok.btn">
+					  <input type="checkbox" class="flat" ng-checked="pp.value" ng-model="pp.value" ng-disabled="btns.ok.btn">
 					  <span class="slider round"></span>
 					</label>
 					<h6>{{pp.description}}</h6>
 				  </div>
+				</div>
 			</div>
 		</div>
-	</div>
-		<hr>
 		<div class="row">
-			<button class="btn btn-primary ml-auto" style="margin-right: 5px;" ng-click="app.save(this)" ng-disabled="btns.ok.disabled">{{controls.ok.label}}</button>
-			<button class="btn btn-secondary" ng-click="app.cancel(this)">{{controls.cancel.label}}</button>
+			<button class="btn btn-primary ml-auto" style="margin-right: 5px;" ng-click="app.save(this)" ng-disabled="btns.ok.disabled">{{btns.ok.label}}</button>
+			<button class="btn btn-secondary" ng-click="app.cancel(this)">{{btns.cancel.label}}</button>
 		</div>
 	  </form>
 	</div>

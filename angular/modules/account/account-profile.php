@@ -16,7 +16,7 @@ $avatar = "angular/modules/account/avatar.png";
 
 $con->table = "groups";
 
-$group_privileges = $con->get(array("group_id"=>$account[0]['groups']),["privileges"]);
+$group_privileges = $con->get(array("id"=>$account[0]['groups']),["privileges"]);
 
 $pages_access = [];
 if (count($group_privileges)) {
