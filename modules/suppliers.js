@@ -2,7 +2,7 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 
 	function app() {
 		
-		var self = this;				
+		var self = this;
 
 		self.data = function(scope) {
 
@@ -22,7 +22,10 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 			scope.supplier.id = 0;	
 			
 			scope.supplier.main_categories = [];
-			scope.supplier.dels = [];			
+			scope.supplier.main_categories_dels = [];	
+
+			scope.supplier.categories = [];
+			scope.supplier.categories_dels = [];			
 			
 			scope.suppliers = [];
 			
@@ -101,12 +104,17 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 			
 		};
 		
+		
+		
 		self.add = function(scope,row) {
 			
 			discounts(scope);
-			
+
 			scope.supplier.main_categories = [];
-			scope.supplier.dels = [];			
+			scope.supplier.main_categories_dels = [];	
+
+			scope.supplier.categories = [];
+			scope.supplier.categories_dels = [];			
 			
 			bui.show();
 			
@@ -136,11 +144,6 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 							bui.hide();				
 							
 						});
-						
-					} else {
-						
-						scope.supplier = {};
-						scope.supplier.id = 0;
 						
 					};
 					
@@ -240,17 +243,24 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 
 				scope.supplier.main_categories.push({
 					id: 0,
-					supplier_id: 0,
+					suppliers_id: 0,
 					name: '',
-					description: ''
+					description: '',
+					disabled: false
 				});
+				
+			},	
+
+			edit: function(scope,row) {
+
+				row.disabled = !row.disabled;
 				
 			},			
 			
 			delete: function(scope,row) {
 				
 				if (row.id > 0) {
-					scope.supplier.dels.push(row.id);
+					scope.supplier.main_categories_dels.push(row.id);
 				};
 				
 				var main_categories = scope.supplier.main_categories;
@@ -271,8 +281,52 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 			}			
 			
 		};
-
 		
+		self.category = {
+			
+			add: function(scope) {
+
+				scope.supplier.categories.push({
+					id: 0,
+					suppliers_id: 0,
+					name: '',
+					description: '',
+					disabled: false
+				});
+				
+			},	
+
+			edit: function(scope,row) {
+
+				row.disabled = !row.disabled;
+				
+			},			
+			
+			delete: function(scope,row) {
+				
+				if (row.id > 0) {
+					scope.supplier.categories_dels.push(row.id);
+				};
+				
+				var categories = scope.supplier.categories;
+				var index = scope.supplier.categories.indexOf(row);
+				scope.supplier.categories = [];			
+				
+				angular.forEach(categories, function(d,i) {
+					
+					if (index != i) {
+						
+						delete d['$$hashKey'];
+						scope.supplier.categories.push(d);
+						
+					};
+					
+				});
+
+			}			
+			
+		};
+
 	};
 	
 	return new app();

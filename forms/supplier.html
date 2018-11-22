@@ -70,11 +70,11 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="mc in supplier.main_categories">
-						<td><input type="text" class="form-control" name="name{{$index}}" ng-model="mc.name"></td>
-						<td><input text="text" class="form-control" name="description{{$index}}" ng-model="mc.description"></td>
+						<td><input type="text" class="form-control" name="name{{$index}}" ng-model="mc.name" ng-disabled="mc.disabled"></td>
+						<td><input text="text" class="form-control" name="description{{$index}}" ng-model="mc.description" ng-disabled="mc.disabled"></td>
 						<td>
-						<button class="btn btn-secondary"><i class="fe" ng-class="{'fe-edit': btns.ok.disabled, 'fe-slash': !btns.ok.disabled}"></i></button>
-						<button class="btn btn-secondary" ng-click="app.main_category.delete(this,mc)"><i class="fe fe-x"></i></button>
+						<button class="btn btn-primary" ng-click="app.main_category.edit(this,mc)"><i class="fe" ng-class="{'fe-edit': mc.disabled, 'fe-slash': !mc.disabled}"></i></button>
+						<button class="btn btn-danger" ng-click="app.main_category.delete(this,mc)" ng-disabled="mc.disabled"><i class="fe fe-x"></i></button>
 						</td>
 					</tr>
 				</tbody>
@@ -87,19 +87,22 @@
 			<div class="card-status bg-blue"></div>
 			<div class="card-header">
 				<h3 class="card-title">Category</h3>
-				<button class="btn btn-primary ml-auto">Add</button>
+				<button class="btn btn-primary ml-auto" ng-click="app.category.add(this)">Add</button>
 			</div>
-		    <table class="table">
+		     <table class="table">
 				<thead>
 					<th>Name</th>
 					<th>Description</th>
 					<th>Action</th>
 				</thead>
 				<tbody>
-					<tr>
-						<td><input type="text" class="form-control" name="name"></td>
-						<td><input text="text" class="form-control" name="name"></td>
-						<td><button class="btn btn-secondary"><i class="fe" ng-class="{'fe-edit': btns.ok.disabled, 'fe-slash': !btns.ok.disabled}"></i></button></td>
+					<tr ng-repeat="c in supplier.categories">
+						<td><input type="text" class="form-control" name="name{{$index}}" ng-model="c.name" ng-disabled="c.disabled"></td>
+						<td><input text="text" class="form-control" name="description{{$index}}" ng-model="c.description" ng-disabled="c.disabled"></td>
+						<td>
+						<button class="btn btn-secondary" ng-click="app.category.edit(this,c)"><i class="fe" ng-class="{'fe-edit': c.disabled, 'fe-slash': !c.disabled}"></i></button>
+						<button class="btn btn-secondary" ng-click="app.category.delete(this,c)" ng-disabled="c.disabled"><i class="fe fe-x"></i></button>
+						</td>
 					</tr>
 				</tbody>
 			</table>
