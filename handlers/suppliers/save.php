@@ -20,8 +20,8 @@ unset($_POST['supplier']['categories']);
 $categories_dels = $_POST['supplier']['categories_dels'];
 unset($_POST['supplier']['categories_dels']);
 
-$suppliers_categories = $_POST['supplier']['suppliers_categories'];
-unset($_POST['supplier']['suppliers_categories']);
+/* $suppliers_categories = $_POST['supplier']['suppliers_categories'];
+unset($_POST['supplier']['suppliers_categories']); */
 
 if ($_POST['supplier']['id']) {
 	

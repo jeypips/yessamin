@@ -27,7 +27,7 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 			scope.supplier.categories = [];
 			scope.supplier.categories_dels = [];
 
-			scope.supplier.suppliers_discounts = [];			
+			// scope.supplier.suppliers_discounts = [];			
 			
 			scope.suppliers = [];
 			
@@ -111,14 +111,14 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 		self.add = function(scope,row) {
 			
 			discounts(scope);
-
+		
 			scope.supplier.main_categories = [];
 			scope.supplier.main_categories_dels = [];	
 
 			scope.supplier.categories = [];
 			scope.supplier.categories_dels = [];	
 
-			scope.supplier.suppliers_discounts = [];			
+			// scope.supplier.suppliers_discounts = [];			
 			
 			bui.show();
 			
