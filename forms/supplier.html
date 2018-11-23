@@ -44,8 +44,8 @@
 				<tbody>
 					<tr ng-repeat="d in discounts">
 						<td>{{d.name}}</td>
-						<td><input text="text" class="form-control"></td>
-						<td><button class="btn btn-secondary"><i class="fe fe-edit"></i></button></td>
+						<td><input text="text" class="form-control" name="amount{{index}}" ng-model="d.amount"></td>
+						<td><button class="btn btn-secondary" ng-click="app.discount.edit(this,d)"><i class="fe fe-edit"></i></button></td>
 					</tr>
 				</tbody>
 			</table>

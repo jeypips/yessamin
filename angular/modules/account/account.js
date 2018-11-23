@@ -50,4 +50,26 @@ angular.module('account-module', ['bootstrap-modal']).directive('dropDown', func
 		
 	};
 
+}).directive('settings', function($http,$window,bootstrapModal) {
+	
+	return {
+		restrict: 'A',
+		link: function(scope, element, attrs) {
+			
+			var onOk = function() {
+				
+				$window.location.href = 'angular/modules/login/logout.php';
+				
+			};
+			
+			element.bind('click', function() {
+					
+				bootstrapModal.confirm(scope,'Confirmation','Are you sure you want to logout?',onOk,function() {});
+
+			});
+			
+		}
+		
+	};
+
 });

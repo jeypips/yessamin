@@ -25,7 +25,9 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 			scope.supplier.main_categories_dels = [];	
 
 			scope.supplier.categories = [];
-			scope.supplier.categories_dels = [];			
+			scope.supplier.categories_dels = [];
+
+			scope.supplier.suppliers_discounts = [];			
 			
 			scope.suppliers = [];
 			
@@ -114,7 +116,9 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 			scope.supplier.main_categories_dels = [];	
 
 			scope.supplier.categories = [];
-			scope.supplier.categories_dels = [];			
+			scope.supplier.categories_dels = [];	
+
+			scope.supplier.suppliers_discounts = [];			
 			
 			bui.show();
 			
@@ -325,6 +329,15 @@ angular.module('app-module', ['bootstrap-modal','ui.bootstrap','block-ui','boots
 
 			}			
 			
+		};
+		
+		self.discount = {
+				
+			edit: function(scope,row) {
+
+				row.disabled = !row.disabled;
+				
+			},
 		};
 
 	};
